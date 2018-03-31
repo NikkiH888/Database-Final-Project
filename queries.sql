@@ -38,4 +38,15 @@ JOIN branch b ON t.branch_id = b.branch_id
 JOIN foreman f ON t.foreman_id = f.foreman_id
 JOIN ticket_status ts ON t.ticketstatus_id = ts.ticketstatus_id;
 
+/* Purchase Orders */
+SELECT po.id AS 'Purchase Order ID', ps.name AS 'Status'
+FROM purchase_orders po
+JOIN purchase_statuses ps ON po.purchase_status_id = ps.id
 
+/* Issues */
+SELECT i.id AS 'Issue ID', is.name AS 'Status', f.name AS 'Foreman', c.name AS 'Company'
+FROM issues i
+JOIN issue_statuses is ON i.issue_status_id = is.id
+LEFT JOIN foremen f ON i.assigned_foreman_id = f.id
+JOIN properties p ON i.property_id = p.id
+JOIN companies c ON p.company_id = c.id
