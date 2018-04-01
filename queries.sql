@@ -1,14 +1,23 @@
+// Revenue by branch 
+
+SELECT Branch_ID, SUM(Contract_price)
+  FROM Property P INNER JOIN Contract C 
+    ON P.Property_ID = C.Property_ID
+       INNER JOIN Branch B
+       ON B.Branch_ID = P.Branch_ID
+GROUP BY Branch_ID;
+
 // Expenses by type
 
-SELECT SUM(actLabor_expense) as "Actual Labor Total EXP”,
-       SUM(estLabor_expense) as "Estimated Labor Total EXP",
-       SUM(actSubcontractor_expense) as "Acutal Subcontractor Total EXP",
-       SUM(estSubcontractor_expense) as "Estimated Subcontractor Total EXP",
-       SUM(actMaterial_expense)  as "Actural Material Total EXP",
-       SUM(estMaterial_expense)  as "Estimated Material Total EXP",
-       SUM(actEquipment_expense) as "Actual Equipment Total EXP",
-       SUM(estEquipment_expense) as "Estimated Equipment Total EXP"
-  FROM Ticket
+SELECT SUM(actLabor_expense) AS "Actual Labor Total EXP”,
+       SUM(estLabor_expense) AS "Estimated Labor Total EXP",
+       SUM(actSubcontractor_expense) AS "Acutal Subcontractor Total EXP",
+       SUM(estSubcontractor_expense) AS "Estimated Subcontractor Total EXP",
+       SUM(actMaterial_expense)  AS "Actural Material Total EXP",
+       SUM(estMaterial_expense)  AS "Estimated Material Total EXP",
+       SUM(actEquipment_expense) AS "Actual Equipment Total EXP",
+       SUM(estEquipment_expense) AS "Estimated Equipment Total EXP"
+  FROM Ticket;
 
 // Tickets pending approval
 
@@ -40,13 +49,6 @@ JOIN property p ON c.property_id = p.property_id
 ORDER BY Gross_Margin DESC
 LIMIT 10;
 
-// Profitable properties (projected)
-SELECT 'Property', 'Gross Margin'
-FROM (SELECT p.property_name as 'Property', avg((c.contractPrice - c.estimatedPrice)/c.contractPrice) as 'Gross Margin'
-       FROM Contracts c
-       JOIN Property p ON p.property_id = c.property_id
-       GROUP BY property_id);
-
 // Billed Tickets (completed tickets) (all tickets, filter later for forecasted/actual)
 
 SELECT f.foreman_name as 'Foreman', c.company_name as 'Company', b.branch_name as 'Branch', [year function from t.completedtime], t.act_Ticket_price as 'Billed'
@@ -60,7 +62,7 @@ JOIN ticket_status ts ON t.ticketstatus_id = ts.ticketstatus_id;
 /* Purchase Orders */
 SELECT po.id AS 'Purchase Order ID', ps.name AS 'Status'
 FROM purchase_orders po
-JOIN purchase_statuses ps ON po.purchase_status_id = ps.id
+JOIN purchase_statuses ps ON po.purchase_status_id = ps.id;
 
 /* Issues */
 SELECT i.id AS 'Issue ID', is.name AS 'Status', f.name AS 'Foreman', c.name AS 'Company'
@@ -68,4 +70,4 @@ FROM issues i
 JOIN issue_statuses is ON i.issue_status_id = is.id
 LEFT JOIN foremen f ON i.assigned_foreman_id = f.id
 JOIN properties p ON i.property_id = p.id
-JOIN companies c ON p.company_id = c.id
+JOIN companies c ON p.company_id = c.id;
