@@ -40,6 +40,13 @@ JOIN property p ON c.property_id = p.property_id
 ORDER BY Gross_Margin DESC
 LIMIT 10;
 
+// Profitable properties (projected)
+SELECT 'Property', 'Gross Margin'
+FROM (SELECT p.property_name as 'Property', avg((c.contractPrice - c.estimatedPrice)/c.contractPrice) as 'Gross Margin'
+       FROM Contracts c
+       JOIN Property p ON p.property_id = c.property_id
+       GROUP BY property_id);
+
 // Billed Tickets (completed tickets) (all tickets, filter later for forecasted/actual)
 
 SELECT f.foreman_name as 'Foreman', c.company_name as 'Company', b.branch_name as 'Branch', [year function from t.completedtime], t.act_Ticket_price as 'Billed'
