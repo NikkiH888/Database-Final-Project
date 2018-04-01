@@ -1,3 +1,15 @@
+// Expenses by type
+
+SELECT SUM(actLabor_expense) as "Actual Labor Total EXP”,
+       SUM(estLabor_expense) as "Estimated Labor Total EXP",
+       SUM(actSubcontractor_expense) as "Acutal Subcontractor Total EXP",
+       SUM(estSubcontractor_expense) as "Estimated Subcontractor Total EXP",
+       SUM(actMaterial_expense)  as "Actural Material Total EXP",
+       SUM(estMaterial_expense)  as "Estimated Material Total EXP",
+       SUM(actEquipment_expense) as "Actual Equipment Total EXP",
+       SUM(estEquipment_expense) as "Estimated Equipment Total EXP"
+  FROM Ticket
+
 // Tickets pending approval
 
 SELECT count(ticketStatus_ID) as Pending
