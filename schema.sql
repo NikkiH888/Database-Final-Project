@@ -1,28 +1,31 @@
+DROP TABLE IF EXISTS user_logs;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_types;
+
 CREATE TABLE user_types (
-	id INT,
-	type VARCHAR(40) NOT NULL,
-	PRIMARY KEY (id)
+	user_type_id SERIAL,
+	user_type_name VARCHAR(40) NOT NULL,
+	PRIMARY KEY (user_type_id)
 );
 
 CREATE TABLE users (
-	id INT,
+	user_id INT,
 	password_hash TEXT NOT NULL,
 	username VARCHAR(60) NOT NULL,
 	user_type_id INT NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (user_type_id) REFERENCES user_types (id)
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_type_id) REFERENCES user_types (user_type_id)
 );
 
 CREATE TABLE user_logs (
-	id INT,
 	user_id INT NOT NULL,
 	action_taken_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	action_taken TEXT NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (user_id) REFERENCES users (id)
+	PRIMARY KEY (user_id, action_taken_time),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
-/* */
+/* ######################################################################*/
 
 CREATE TABLE issue_priorities (
 	id INT,
