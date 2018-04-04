@@ -7,6 +7,20 @@ DROP TABLE IF EXISTS Priority;
 DROP TABLE IF EXISTS Issue_status;
 DROP TABLE IF EXISTS Issue_type;
 
+DROP TABLE IF EXISTS Lead;
+DROP TABLE IF EXISTS Lead_contact;
+DROP TABLE IF EXISTS Lead_type;
+DROP TABLE IF EXISTS Lead_status;
+
+DROP TABLE IF EXISTS ContractService;
+DROP TABLE IF EXISTS Contract;
+DROP TABLE IF EXISTS Contract_status;
+
+DROP TABLE IF EXISTS Ticket;
+DROP TABLE IF EXISTS Ticket_status;
+DROP TABLE IF EXISTS Time_work;
+DROP TABLE IF EXISTS ServiceType;
+
 DROP TABLE IF EXISTS Property;
 DROP TABLE IF EXISTS Industry;
 DROP TABLE IF EXISTS Client;
@@ -172,4 +186,140 @@ CREATE TABLE Issues (
 	FOREIGN KEY (issueType_ID) REFERENCES Issue_type (issueType_ID),
 	FOREIGN KEY (assignedForeman_ID) REFERENCES Foreman (foreman_ID),
 	FOREIGN KEY (property_ID) REFERENCES Property (property_ID)
+);
+
+/* ######################################################################*/
+
+CREATE TABLE ServiceType (
+    service_ID SERIAL,
+    title VARCHAR(30),
+    title_description VARCHAR(200),
+    PRIMARY KEY (service_ID)
+);
+
+CREATE TABLE Time_work (
+    timeWork_ID SERIAL,
+    employee_ID INT NULL,
+    timeWork_type VARCHAR(30),
+    isManual BOOLEAN,
+    isApproved BOOLEAN,
+    PRIMARY KEY (timeWork_ID),
+    FOREIGN KEY (employee_ID) REFERENCES Employee (employee_ID)
+);
+
+CREATE TABLE Ticket_status (
+    ticketStatus_ID SERIAL,
+    ticketStatus_name VARCHAR(30),
+    PRIMARY KEY (ticketStatus_ID)
+);
+
+CREATE TABLE Ticket (
+    ticket_ID SERIAL,
+    service_ID INT NOT NULL,
+    foreman_ID INT NOT NULL,
+    property_ID INT,
+    branch_ID INT NOT NULL,
+    timeWork_ID INT NOT NULL,
+    ticketStatus_ID INT NOT NULL,
+    estimatedTime TIMESTAMP,
+    completedTime TIMESTAMP,
+    estTicket_price NUMERIC(12,2),
+    actTicket_price NUMERIC(12,2),
+    estLabor_expense NUMERIC(12,2),
+    actLabor_expense NUMERIC(12,2),
+    estSubcontractor_expense NUMERIC(12,2),
+    actSubcontractor_expense NUMERIC(12,2),
+    estMaterial_expense NUMERIC(12,2),
+    actMaterial_expense NUMERIC(12,2),
+    estEquipment_expense NUMERIC(12,2),
+    actEquipment_expense NUMERIC(12,2),
+    PRIMARY KEY (ticket_ID),
+    FOREIGN KEY (service_ID) REFERENCES ServiceType (service_ID),
+    FOREIGN KEY (foreman_ID) REFERENCES Foreman (foreman_ID),
+    FOREIGN KEY (property_ID) REFERENCES Property (property_ID),
+    FOREIGN KEY (branch_ID) REFERENCES Branch (branch_ID),
+    FOREIGN KEY (timeWork_ID) REFERENCES Time_work (timeWork_ID),
+    FOREIGN KEY (ticketStatus_ID) REFERENCES Ticket_status (ticketStatus_ID)
+);
+
+CREATE TABLE Contract_status (
+    contractStatus_ID SERIAL,
+    contractStatus_name VARCHAR(40),
+    PRIMARY KEY (contractStatus_ID)
+);
+
+CREATE TABLE Contract (
+	contract_ID SERIAL,
+    contractStatus_ID INT NOT NULL,
+    property_ID INT NOT NULL,
+    employee_ID INT NOT NULL,
+    ticket_ID INT NOT NULL,
+    contractYear INT,
+    startedDate DATE,
+    endDate DATE,
+    approvalDate DATE,
+    estimatedCost NUMERIC(12,2),
+    actualCost NUMERIC(12,2),
+    contract_price NUMERIC(12,2),
+
+    PRIMARY KEY (contract_ID),
+    FOREIGN KEY (contractStatus_ID) REFERENCES Contract_status (contractStatus_ID),
+    FOREIGN KEY (property_ID) REFERENCES Property (property_ID),
+    FOREIGN KEY (employee_ID) REFERENCES Employee (employee_ID),
+    FOREIGN KEY (ticket_ID) REFERENCES Ticket (ticket_ID)
+);
+
+CREATE TABLE ContractService (
+    contractService_ID SERIAL,
+    service_ID INT NOT NULL,
+    contract_ID INT NOT NULL,
+    occurrence INT,
+    standard_price NUMERIC(12,2),
+    PRIMARY KEY (contractService_ID),
+    FOREIGN KEY (service_ID) REFERENCES ServiceType (service_ID),
+    FOREIGN KEY (contract_ID) REFERENCES Contract (contract_ID)
+);
+
+/* ######################################################################*/
+
+CREATE TABLE Lead_contact (
+    leadContact_ID SERIAL,
+    leadClient_name VARCHAR(30),
+    company TEXT,
+    lead_email VARCHAR(50),
+    lead_phone_number VARCHAR(15),
+    lead_address VARCHAR(100),
+    PRIMARY KEY (leadContact_ID)
+);
+
+CREATE TABLE Lead_type (
+    leadType_ID SERIAL,
+    leadType_name VARCHAR(30),
+    PRIMARY KEY (leadType_ID)
+);
+
+CREATE TABLE Lead_status (
+    leadStatus_ID SERIAL,
+    leadStatus_name VARCHAR(30),
+    PRIMARY KEY (leadStatus_ID)
+);
+
+CREATE TABLE Lead (
+    lead_ID SERIAL,
+    branch_ID INT NOT NULL,
+    contract_ID INT NOT NULL,
+    employee_ID INT NOT NULL,
+    industry_ID INT NOT NULL,
+    leadContact_ID INT NOT NULL,
+    leadType_ID INT NOT NULL,
+    leadStatus_ID INT NOT NULL,
+    leadValue NUMERIC(12,2),
+    PRIMARY KEY (lead_ID),
+    FOREIGN KEY (branch_ID) REFERENCES Branch (branch_ID),
+    FOREIGN KEY (contract_ID) REFERENCES Contract (contract_ID),
+    FOREIGN KEY (employee_ID) REFERENCES Employee (employee_ID),
+    FOREIGN KEY (industry_ID) REFERENCES Industry (industry_ID),
+    FOREIGN KEY (leadContact_ID) REFERENCES Lead_contact (leadContact_ID),
+    FOREIGN KEY (leadType_ID) REFERENCES Lead_type (leadType_ID),
+    FOREIGN KEY (leadStatus_ID) REFERENCES Lead_status (leadStatus_ID)
 );
