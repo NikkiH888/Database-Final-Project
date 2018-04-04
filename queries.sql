@@ -9,7 +9,7 @@ GROUP BY Branch_ID;
 
 // Expenses by type
 
-SELECT SUM(actLabor_expense) AS "Actual Labor Total EXP”,
+SELECT SUM(actLabor_expense) AS "Actual Labor Total EXP",
        SUM(estLabor_expense) AS "Estimated Labor Total EXP",
        SUM(actSubcontractor_expense) AS "Acutal Subcontractor Total EXP",
        SUM(estSubcontractor_expense) AS "Estimated Subcontractor Total EXP",
