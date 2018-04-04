@@ -1,0 +1,29 @@
+//Show purchase order status as it progresses through the pipeline
+π purchase_orders.id, purchase_statuses.name (purchase_orders ⟗ purchase_orders.purchase_status_id = purchase_statuses.id purchase_statuses)
+
+//Issues
+π issues.id, issue_statuses.name, foremen.name, company.name (issues ⟗ issues.issue_status_id = issue_statuses.id issue_statuses ⟕ issues.assigned_foreman_id = foremen.id foremen ⟗ issues.property_id = properties.id properties ⟗ properties.company_id = companies.id companies)
+
+//Revenue by branch
+π branch.id, sum(contract.contract_price) (property ⟗ property.property_id = contract.property_id contract ⟗ property.branch_id = branch.branch_id branch) γ branch.id
+
+//top 10 profitable properties
+π * (π property.property_name, avg((contracts.contractPrice - contracts.estimatedPrice) / contracts.contractPrice) (contracts ⟗ contracts.property_id = property.property_id property)) γ property.property_id
+
+//Tickets pending approval
+π count(ticketStatus_ID) (σ ticketstatus = (σ ticket_name = 'Approved' (name.ticket_status))) (name.ticket)
+
+//Expenses by type
+π sum(actLabor_expense), sum(estLabor_expense), sum(actSubcontractor_expense), sum(estSubcontractor_expres), sum(actMaterial_expense), sum(estMaterial_expense), sum(actEquipment_expense), sum(estEquipment_expense) (Ticket)
+
+//Sales by Person (top 10)
+τ completed_leads DESC (π employee_name, completed_leads (σ position_type = 'Sales' (employee)))
+
+//Show by branch
+τ completed_leads DESC (π branch_id, employee_name, completed_leads (σ position_type = 'Sales' (employee))) γ branch_id
+
+//top 10 profitable contracts
+π issue_priority.priority_name, count(issues.issue_id) (issues ⟗ issues.issuePriority_id = issue_priority.issuePriority_id issue_priority) γ issue_priority.priority_name
+
+// Billed Tickets (completed tickets) (all tickets, filter later for forecasted/actual)
+π foremen.foreman_name, company.company_name, branch.branch_name, year(ticket.completedtime), t.act_Ticket_price (ticket ⟗ ticket.property_id = property.property_id property ⟗ ticket.company_id = company.company_id company ⟗ ticket.branch_id = branch.branch_id branch ⟗ ticket.foreman_id = foreman.foreman_id foreman ⟗ ticket.ticketstatus_id = ticket_status.ticketstatus_id ticket_status)
