@@ -49,9 +49,17 @@ JOIN property p ON c.property_id = p.property_id
 ORDER BY Gross_Margin DESC
 LIMIT 10;
 
+
+// issues by priority
+SELECT ip.priority_name as 'Priority', count(i.issue_id) as 'Count'
+FROM Issues i
+JOIN issue_priority ip ON ip.issuePriority_id = i.issuePriority_id
+GROUP BY ip.priority_name;
+
+
 // Billed Tickets (completed tickets) (all tickets, filter later for forecasted/actual)
 
-SELECT f.foreman_name as 'Foreman', c.company_name as 'Company', b.branch_name as 'Branch', [year function from t.completedtime], t.act_Ticket_price as 'Billed'
+SELECT f.foreman_name as 'Foreman', c.company_name as 'Company', b.branch_name as 'Branch', year(t.completedtime) as 'Year', t.act_Ticket_price as 'Billed'
 FROM ticket t
 JOIN property p ON t.property_id = p.property_id
 JOIN company c ON c.company_id = t.company_id
