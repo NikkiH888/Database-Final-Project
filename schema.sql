@@ -1,3 +1,8 @@
+
+DROP TABLE IF EXISTS user_logs;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS user_types;
+
 DROP TABLE IF EXISTS PurchaseOrder;
 DROP TABLE IF EXISTS Vendor;
 DROP TABLE IF EXISTS Purchase_statuse;
