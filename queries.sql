@@ -22,13 +22,13 @@ SELECT SUM(actLabor_expense) AS "Actual Labor Total EXP",
 // Tickets pending approval
 
 SELECT count(ticketStatus_ID) as Pending
-FROM name.ticket
+FROM Ticket
 WHERE ticketstatus = (SELECT ticketstatus_id FROM name.ticket_status WHERE ticket_name = 'Approved');
 
 // Sales by Person (top 10)
 
 SELECT employee_name as name, completed_leads
-FROM name.employee
+FROM Employee
 WHERE position_type = 'Sales'
 ORDER BY completed_leads DESC
 LIMIT 10;
@@ -36,7 +36,7 @@ LIMIT 10;
 // Show by Branch
 
 SELECT branch_id as Branch, employee_name as Name, completed_leads
-FROM name.employee
+FROM Employee
 WHERE position_type = 'Sales'
 ORDER BY complete_leads DESC
 GROUP BY branch_id;
@@ -44,7 +44,7 @@ GROUP BY branch_id;
 // Top 10 Profitable Contracts (right now) - change to properties
 
 SELECT p.property_ name as 'Property', (c.contractprice - c.estimatedcost)/c.contractprice as 'Gross_Margin'
-FROM contract c 
+FROM Contract c 
 JOIN property p ON c.property_id = p.property_id
 ORDER BY Gross_Margin DESC
 LIMIT 10;
