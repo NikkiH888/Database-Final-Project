@@ -87,7 +87,7 @@ CREATE TABLE Employee (
 	employee_name VARCHAR(60) NOT NULL,
     position_type VARCHAR(30),
     leads_in_progress VARCHAR(30),
-    completed_leads VARCHAR(30),
+    completed_leads NUMERIC(14,2),
     branch_ID INT NOT NULL,
     PRIMARY KEY (employee_ID),
     FOREIGN KEY (branch_ID) REFERENCES Branch(branch_ID)
