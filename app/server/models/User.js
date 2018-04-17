@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize")
 const sequelize = require("../db")
+const UserType = require("./UserType")
 
 const User = sequelize.define('user', {
 	id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
