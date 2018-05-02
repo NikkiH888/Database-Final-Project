@@ -11,10 +11,10 @@ WHERE l.branch_id = b.branch_id
 GROUP BY branch_id;
 
 # Leads - Indusry
-SELECT b.branch_name as "Branch Name", count(l.lead_ID)
+SELECT i.industry_name, count(l.lead_ID)
 FROM Lead l, industry i
-WHERE l.industry_id = i.industry_id AND l.leadStatus_ID  IN (2,4)
-GROUP BY industry_id;
+WHERE l.industry_id = i.industry_id
+GROUP BY i.industry_id
 
 # Leads - Successful leads by year
 SELECT leadYear, count(lead_id)
