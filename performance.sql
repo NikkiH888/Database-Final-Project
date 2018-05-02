@@ -1,7 +1,7 @@
 # Company Performance -> Net_income = revenue - cost | Net_sales = revenue | Profit Margin = (net_income/net_sales)
- SELECT (SUM(sales_price) - SUM(actualCost)) AS "Net Income", 
-          SUM(sales_price) AS "Net Sales", 
-           (SUM(sales_price) - SUM(actualCost)) / SUM(sales_price) AS "Profit Margin"                     
+ SELECT (SUM(sale_price) - SUM(actualCost)) AS "Net Income", 
+          SUM(sale_price) AS "Net Sales", 
+           (SUM(sale_price) - SUM(actualCost)) / SUM(sale_price) AS "Profit Margin"                     
  FROM Contract;
 
  # Company Performance - Retrieve the total revenue & expense of the company each year
