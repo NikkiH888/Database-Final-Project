@@ -5,7 +5,7 @@ JOIN Issue_status is ON i.issueStatus_ID = is.issueStatus_ID
 GROUP BY (is.issueStatus_name)
 
 /* For issues tables */
-SELECT i.id, is.issueStatus_name AS 'status', e.employee_name, p.property_name, it.issueType_code, priority.priority_name
+SELECT i.id, is.issueStatus_name AS 'status', e.employee_name, p.property_name, it.issueType_code, priority.priority_name, i.dueDate
 FROM Issues i
 JOIN Issue_status is ON i.issueStatus_ID = is.issueStatus_ID
 JOIN Employee e ON i.assignedForeman_ID = e.employee_ID
