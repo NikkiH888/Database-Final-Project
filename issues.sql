@@ -1,8 +1,8 @@
 /* For issues overall view */
-SELECT is.issueStatus_name AS 'status', COUNT(*) AS 'count'
+SELECT iss.issueStatus_name AS status, COUNT(*) AS count
 FROM Issues i
-JOIN Issue_status is ON i.issueStatus_ID = is.issueStatus_ID
-GROUP BY (is.issueStatus_name)
+JOIN Issue_status iss ON i.issueStatus_ID = iss.issueStatus_ID
+GROUP BY (iss.issueStatus_name)
 
 /* For issues tables */
 SELECT i.id, is.issueStatus_name AS 'status', e.employee_name, p.property_name, it.issueType_code, priority.priority_name, i.dueDate
