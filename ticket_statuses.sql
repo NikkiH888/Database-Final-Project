@@ -1,5 +1,5 @@
 /* For tickets overall view */
-SELECT ts.ticketStatus_name AS 'status', COUNT(*) AS 'count'
+SELECT ts.ticketStatus_name AS status, COUNT(*)
 FROM Ticket t
 JOIN Ticket_status ts ON t.ticketStatus_ID = ts.ticketStatus_ID
 GROUP BY (ts.ticketStatus_name)
