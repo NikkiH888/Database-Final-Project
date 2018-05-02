@@ -11,3 +11,4 @@ JOIN Vendor v ON po.vendor_ID = v.vendor_ID
 JOIN Purchase_status ps ON po.purchaseStatus_ID = ps.purchaseStatus_ID
 JOIN Branch b ON po.branch_ID = b.branch_ID
 WHERE ps.status = 'Complete'
+LIMIT 500
