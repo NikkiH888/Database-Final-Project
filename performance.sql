@@ -24,7 +24,7 @@ GROUP BY B.Branch_ID, C.contractYear;
 -- FROM Contracts
 -- GROUP BY ContractYear;
 
-# Contribution Margin - Showing profit margins from contracts for each year.
-SELECT ContractYear, 1 - ((Select sum(ActualCostEstimate) From Contracts Group by ContractYear)/(Select sum(sale_price) From Contracts Group by ContractYear)) as Contribution_Margin
-FROM Contracts
-ORDER BY ContractYear Desc;
+# Contribution Margin - Showing margins from contracts for each year.
+SELECT contractyear, 1 - (sum(actualCost)/sum(sale_price)) AS Divide
+FROM Contract
+GROUP BY contractyear;
